@@ -1,0 +1,115 @@
+
+{% extends 'base.html' %}
+        {% block judul %} 
+        Inventory Data List
+        {% endblock judul %} 
+{% load static %}  <!-- add this line -->
+{% block content %}
+
+        </nav>
+
+
+    <div class="container">
+            <div class="row">
+                <div class="col">
+                    <p class="text-white mt-5 mb-5">Welcome back, <b>{{request.user}}</b></p>
+                </div>
+            </div>
+            <!-- row -->
+    <div class="container">
+        <table class="table table-hover tm-table-small tm-product-table">
+                 <h2 class="tm-block-title">Jumlah Data: {{ entrydata.count}}</h2>
+                <thead>
+                    <tr>
+                        <th scope="col">PRODUCTS NAMES</th>                        
+                        <th scope="col">KUANTITAS TERJUAL</th>
+                        <th scope="col">JUMLAH TRANSAKSI</th>
+                        <th scope="col">PRODUK RUSAK</th>
+                        <th scope="col">SISA PRODUK</th>
+                        <th scope="col">HARI PERIODE</th>
+                        <th scope="col">TOR</th>
+                        <th scope="col">WSP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {% if not entrydata %}
+                          <td> TIDAK ADA DATA </td>
+                  {% else %}
+                    {% for entrydata in entrydata %}
+
+                      <tr>
+                          <th scope="row"><b>{{ entrydata.product }}</b></th>
+                          <td>{{ entrydata.kuantitas_terjual }}</td>
+                          <td><b>{{ entrydata.jumlah_transaksi }}</b></td>
+                          <td><b>{{ entrydata.produk_rusak }}</b></td>
+                          <td><b>{{ entrydata.sisa_produk }}</b></td>
+                          <td><b>{{ entrydata.hari_periode }}</b></td>
+                          <td><b>{{ entrydata.tor }}</b></td>
+                          <td><b>{{ entrydata.wsp }}</b></td>
+                          <td>
+                            <a href="{% url 'inventdata:edit-entry'  listdata.id entrydata.id %}" class="tm-product-delete-link">
+                              <i class="fas fa-edit tm-product-delete-icon"></i>
+                            </a>
+                          </td>
+                          <td>
+                            <a href="{% url 'inventdata:delete-entry' listdata.id entrydata.id %}" class="tm-product-delete-link">
+                              <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                            </a>
+                          </td>
+                      </tr>
+                    {% endfor %}
+                  {% endif %}
+                </tbody>
+            </table>
+
+  <!-- Form to leave comment -->
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <div class="container">
+    <div class="container">
+            <div class="row tm-content-row">
+            <form method="POST" action="{% url 'inventdata:try-analysis' listdata.id %}">
+              {% csrf_token %}
+              <div class="form-group" >
+                <label for="description">Input Nilai K</label>
+                <input name="nilaik" type="text" class="form-control validate" style="background-color: #fec539" placeholder="Input berupa angka" required/>
+              </div>
+
+              </div>
+                    <br>
+
+                    <button class="btn btn-primary btn-block text-uppercase" type="submit" formaction="{% url 'inventdata:try-analysis2' listdata.id %}">Analysis </button>
+                    <br>
+                    <button class="btn btn-primary btn-block text-uppercase" type="submit" formaction="{% url 'inventdata:try-analysis3' listdata.id %}">Analysis 2</button>
+              </div>
+
+            </form>
+
+<br>
+<br>
+                <div class="col-sm-30 col-md-30 col-lg-30 col-xl-30 tm-block-col">
+
+
+                    <button><a class="btn btn-primary btn-block text-uppercase" href="{% url 'inventdata:add-entry'  listdata.id %}" >Tambah Data</a></button>
+                    
+                    <button><a class="btn btn-primary btn-block text-uppercase" href="{% url 'inventdata:upload-entry'  listdata.id %}" >Upload Data Tahunan</a></button>
+
+                    <button><a class="btn btn-primary btn-block text-uppercase" href="{% url 'inventdata:upload-data-periode'  listdata.id %}" >Upload Data Periode Tertentu</a></button>
+
+                    <button><a class="btn btn-primary btn-block text-uppercase" href="{% url 'inventdata:inventdatahome' %}" >Back</a></button>                 
+
+            </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+{% endblock content %}
+
+<!-- templates/core/post.html -->

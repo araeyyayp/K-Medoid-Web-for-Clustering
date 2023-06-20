@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+{% load static %}
+
+
+
+    <div class="container">
+        <table class="table table-hover tm-table-small tm-product-table">
+                 <h2 class="tm-block-title">Jumlah Data: {{ num_product}}</h2>
+                <thead>
+                    <tr>
+                        <th scope="col">NAMA PRODUCT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     {% for obj in object_list %}
+                      <tr>
+                          <th scope="row"><b>{{ obj.name }}</b></th>
+                                              
+                          <td>
+                            <a href="{% url 'product:edit-product'  obj.id %}" class="tm-product-delete-link">
+                              <i class="fas fa-edit tm-product-delete-icon"></i>
+                            </a>
+                          </td>
+                          <td>
+                            <a href="{% url 'product:delete-product'  obj.id %}" class="tm-product-delete-link">
+                              <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                            </a>
+                          </td>
+                      </tr>
+                {% endfor %}
+
+
+                </tbody>
+            </table>
+                    <button><a class="btn btn-primary btn-block text-uppercase" href="{% url 'product:add' %}" >Tambah Product</a></button>
+                    <button><a class="btn btn-primary btn-block text-uppercase" href="{% url 'product:upload-product' %}">Upload Product</a></button>
+                    <button><a class="btn btn-primary btn-block text-uppercase" href="{% url 'product:producthome'%}" >Back</a></button>   
+
+
+{% endblock content %}

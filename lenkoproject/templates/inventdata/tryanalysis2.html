@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+        {% block judul %} 
+        Analysis Result
+        {% endblock judul %} 
+{% load static %}  <!-- add this line -->
+{% block content %}
+
+        </nav>
+    <div class="container">
+            <div class="row">
+                <div class="col">
+                    <p class="text-white mt-5 mb-5">Welcome back, <b>{{request.user}}</b></p>
+                </div>
+            </div>
+
+    <div class="container">
+          </div>
+        <table class="table table-hover tm-table-small tm-product-table">
+                 <h2 class="tm-block-title">Parameter Data Awal </h2>
+                <thead>
+                    <tr>                       
+                        <th scope="col">KUANTITAS TERJUAL</th>
+                        <th scope="col">JUMLAH TRANSAKSI</th>
+                        <th scope="col">SISA PRODUK</th>
+                        <th scope="col">PRODUK RUSAK</th>
+                                                  
+                    </tr>
+                </thead>
+                <tbody>
+                  {% if dataawal %}
+                    {% for k in dataawal %}
+                      <tr>
+                        <td>{{ k.kuantitas_terjual }}</td>
+                        <td><b>{{ k.jumlah_transaksi }}</b></td>
+                        <td><b>{{ k.sisa_produk }}</b></td>
+                        <td><b>{{ k.produk_rusak }}</b></td>                 
+                      </tr>
+
+                    {% endfor %}
+                   {% else %}
+                    <td> TIDAK ADA DATA </td> 
+                  {% endif %}
+                </tbody>
+            </table>
+
+  <!-- Form to leave comment -->
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+      <div class="container">
+        <table class="table table-hover tm-table-small tm-product-table">
+                 <h2 class="tm-block-title">Parameter Setelah Normalisasi Z-Score </h2>
+                <thead>
+                    <tr>                       
+                        <th scope="col">KUANTITAS TERJUAL</th>
+                        <th scope="col">JUMLAH TRANSAKSI</th>
+                        <th scope="col">SISA PRODUK</th>
+                        <th scope="col">PRODUK RUSAK</th>
+                                                  
+                    </tr>
+                </thead>
+                <tbody>
+                  {% if datanormalisasi %}
+                    {% for l in datanormalisasi  %}
+                      <tr>
+                        <td>{{ l.0 }}</td>
+                        <td><b>{{ l.1 }}</b></td>
+                        <td><b>{{ l.2}}</b></td>
+                        <td><b>{{ l.3 }}</b></td>                   
+                      </tr>
+
+                    {% endfor %}
+                   {% else %}
+                    <td> TIDAK ADA DATA </td> 
+                  {% endif %}
+                </tbody>
+            </table>
+
+  <!-- Form to leave comment -->
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+            <!-- row -->
+    <div class="container">
+        <table class="table table-hover tm-table-small tm-product-table">
+                 <h2 class="tm-block-title">Cluster Center (Medoid):</h2>
+                 <h2 class="tm-block-title">Posisi Medoid (Medoid): {{posisimedoid}}</h2>
+                <thead>
+                    <tr>
+                        <th scope="col">PRODUCTS NAMES</th>                        
+                        <th scope="col">KUANTITAS TERJUAL</th>
+                        <th scope="col">JUMLAH TRANSAKSI</th>
+                        <th scope="col">SISA PRODUK</th>
+                        <th scope="col">PRODUK RUSAK</th>
+                        <th scope="col">MEDOID CLUSTER</th>                          
+                    </tr>
+                </thead>
+                <tbody>
+                  {% if clustercenter %}
+                    {% for j in clustercenter %}
+                      <tr>
+                        <td>{{ j.product }}</td>
+                        <td>{{ j.kuantitas_terjual }}</td>
+                        <td><b>{{ j.jumlah_transaksi }}</b></td>
+                        <td><b>{{ j.sisa_produk }}</b></td>
+                        <td><b>{{ j.produk_rusak }}</b></td>
+                        <td><b>{{ j.cluster }}</b></td>                        
+                      </tr>
+
+                    {% endfor %}
+                   {% else %}
+                    <td> TIDAK ADA DATA </td> 
+                  {% endif %}
+                </tbody>
+            </table>
+
+  <!-- Form to leave comment -->
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+      <div class="container">
+        <table class="table table-hover tm-table-small tm-product-table">
+                 <h2 class="tm-block-title">Hasil Clustering</h2>
+                 <h2 class="tm-block-title">Silhouette Score: {{ silhouette }}</h2>
+                <thead>
+                    <tr>
+                        <th scope="col">PRODUCTS NAMES</th>                        
+                        <th scope="col">KUANTITAS TERJUAL</th>
+                        <th scope="col">JUMLAH TRANSAKSI</th>
+                        <th scope="col">SISA PRODUK</th>
+                        <th scope="col">PRODUK RUSAK</th>
+                        <th scope="col">MEDOID CLUSTER</th>                      
+                    </tr>
+                </thead>
+                <tbody>
+
+                  {% if hasilcluster %}
+                    {% for i in hasilcluster %}
+                      <tr>
+                        <td>{{ i.product }}</td>
+                        <td>{{ i.kuantitas_terjual }}</td>
+                        <td><b>{{ i.jumlah_transaksi }}</b></td>
+                        <td><b>{{ i.sisa_produk }}</b></td>
+                        <td><b>{{ i.produk_rusak }}</b></td>
+                        <td><b>{{ i.cluster }}</b></td>    
+                      </tr>
+
+                    {% endfor %}
+                   {% else %}
+                    <td> TIDAK ADA DATA </td> 
+                  {% endif %}
+                </tbody>
+            </table>
+
+
+
+
+    <div class="container">
+            <div class="row">
+                <div class="col">
+                    <p class="text-white mt-5 mb-5"> Visualisasi Silhouette Score </p>
+                </div>
+                {% if chart%}
+                    <img src="data:image/png;base64, {{chart | safe}}">
+                {% endif %}
+
+
+            </div>
+
+    <form method="POST" action="{% url 'inventdata:tryreport2' listdata.id %}">
+    {% csrf_token %}
+    <div class="form-group">
+          <label for="nilai_k_select">K Selected</label>
+          <input name="nilai_k_select" type="text" value="{{ nilaik }}" style="background-color: #fec539" class="form-control validate" readonly/>
+          </div>
+      
+      <input type="submit" value="Report"class="btn btn-primary btn-block text-uppercase mb-3">
+
+    </form>
+            
+  <br>
+  <button><a class="btn btn-primary btn-block text-uppercase" href="{% url 'inventdata:detail'  listdata.id %}" >Back</a></button>  
+
+{% endblock content %}
